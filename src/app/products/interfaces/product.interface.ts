@@ -1,3 +1,7 @@
+import { User } from "../../auth/interfaces/user.interface";
+
+
+
 export interface ProductResponse {
     count:    number;
     pages:    number;
@@ -31,14 +35,5 @@ export enum Size {
     Xl = "XL",
     Xs = "XS",
     Xxl = "XXL",
-}
-
-
-export interface User {
-    id:       string;
-    email:    string;
-    fullName: string;
-    isActive: boolean;
-    roles:    string[];
 }
 
