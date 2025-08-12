@@ -10,11 +10,11 @@ export class Products {
   
   private http = inject( HttpClient )
 
-getProducts():Observable<ProductResponse> {
-
-  return this.http.get<ProductResponse>('http://localhost:3000/api/products')
-                  .pipe( tap((resp)=>console.log(resp)) )
-
-}
+    getProducts():Observable<ProductResponse> {
+    
+      return this.http.get<ProductResponse>('http://localhost:3000/api/products')
+                      .pipe( tap((resp)=>console.log(resp)) )
+    
+    }
 
 }
