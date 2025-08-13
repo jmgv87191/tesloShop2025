@@ -14,7 +14,7 @@ export class HomePage {
 
   productsService = inject(Products)
 
-  productsResource = this.productsService.getProducts().subscribe((data)=>{
+  productsResource = this.productsService.getProducts({}).subscribe((data)=>{
     console.log(data)
   }) 
 
