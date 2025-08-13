@@ -16,6 +16,15 @@ export class HomePage {
 
   productsResource = this.productsService.getProducts().subscribe((data)=>{
     console.log(data)
-  })
+  }) 
+
+
+/*   productResource = rxResource<any[], void >({
+    stream: (   )=>(),
+    loader:({ })=>{
+      return this.productsService.getProducts()
+    }
+
+  }) */
 
 }
