@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { ProductCard } from "../../components/product-card/product-card";
 import { Products } from '../../../products/services/products'
 import { rxResource } from '@angular/core/rxjs-interop';
+import { ProductResponse } from '../../../products/interfaces/product.interface';
+import { count } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
@@ -14,8 +16,11 @@ export class HomePage {
 
   productsService = inject(Products)
 
+  productsArray: ProductResponse  = { count:0, pages:0, products:[] }
+
   productsResource = this.productsService.getProducts({}).subscribe((data)=>{
-    console.log(data)
+    this.productsArray = data;
+    console.log(this.productsArray)
   }) 
 
 
