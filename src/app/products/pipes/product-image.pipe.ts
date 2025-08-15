@@ -14,6 +14,13 @@ export class productImagePipe implements PipeTransform {
             return `${baseUrl}/files/product/${value}`
         }
 
+        const image = value.at(0)
+
+        if (!image) {
+            return 'assets/no-image.jpg'
+        }
+        
+        return `${baseUrl}/files/product/${image}`
 
     }
 }

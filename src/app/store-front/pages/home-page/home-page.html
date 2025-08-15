@@ -13,6 +13,8 @@
     @for (item of productResource.value()?.products ; track $index) {
 
         <app-product-card [product]="item" ></app-product-card>
+    }@empty {
+                <p>No hay ningun prodfucto</p>
     }
 
 
