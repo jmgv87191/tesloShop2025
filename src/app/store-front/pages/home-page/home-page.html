@@ -3,12 +3,18 @@
 
 <div class="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-3">
 
-    @for (item of productsArray.products; track $index) {
+<!--     @for (item of productsArray.products; track $index) {
 
-        <app-product-card [product]="item"  ></app-product-card>
+        <app-product-card [product]="item" ></app-product-card>
     }@empty {
-        <p>No hay productos</p>
+        <p>No hay ningun prodfucto</p>
+    } -->
+    
+    @for (item of productResource.value()?.products ; track $index) {
+
+        <app-product-card [product]="item" ></app-product-card>
     }
+
 
 
 </div>
