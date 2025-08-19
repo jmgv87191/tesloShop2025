@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Products } from '../../../products/services/products'
+import { rxResource } from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -15,20 +16,17 @@ export class ProductPage {
   productService = inject( Products )
 
 
-  constructor(){
 
-    const idSlug = this.activatesRoute.snapshot.paramMap.get('idSlug')
+    idSlug = this.activatesRoute.snapshot.paramMap.get('idSlug')
 
-    // this.getProduct( idSlug! )
+      productResource = rxResource({
+        params: () => ({ idSlug2: this.idSlug }),
+        stream: ({ params }) =>
+        this.productService.getProductByIdSlug(params.idSlug2!)
+  });
 
-  }
 
-/*   getProduct( slug:string ){
-    this.productService.getProductByIdSlug( slug ).subscribe((data)=>{
-      console.log(data)
-    })
-  } */
-
-  
 
 }
+
+
