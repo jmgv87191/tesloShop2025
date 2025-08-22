@@ -1,6 +1,8 @@
 <h1 class="text-3xl font-roboto font-bold" >Todos los productos <span class="text-accent" >{{ gender() }}</span>  </h1>
 <h2 class="text-xl mb-5" >Para todos los gustos</h2>
-
+<app-pagination [pages]="productResource.value()?.pages?? 0" 
+[currentPage]="paginationService.currentPage()"
+></app-pagination>
 <div class="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-3">
 
 <!--     @for (item of productsArray.products; track $index) {
@@ -9,12 +11,9 @@
     }@empty {
         <p>No hay ningun prodfucto</p>
     } -->
-    
     @for (item of productResource.value()?.products ; track $index) {
 
         <app-product-card [product]="item" ></app-product-card>
-    }@empty {
-                <p>No hay ningun prodfucto</p>
     }
 
 </div>
