@@ -40,9 +40,8 @@ export class LoginPage {
       this.authService.login( email!, password! ).subscribe((isAuthenticated)=>{
         
         if (isAuthenticated) {
+          console.log("usuario autenticado")
           this.router.navigateByUrl('/')
-
-          return;
         }
 
 
