@@ -16,7 +16,7 @@ export class AuthService {
   
   private _authStatus = signal<AuthStatus>('checking')
   private _user = signal<User | null> (null)
-  private _token = signal<string | null>( null )
+  private _token = signal<string | null>( localStorage.getItem('token') )
 
   private http = inject(HttpClient)
 
@@ -43,23 +43,8 @@ checkStatusResource = rxResource<boolean, void>({
       password
     } )
     .pipe(
-      tap((resp) =>{
-        this._user.set(resp.user)
-        this._authStatus.set('authenticated')
-        this._token.set(resp.token)
-
-        localStorage.setItem('token',resp.token)
-
-      }),map(()=> true),
-      catchError((error:any)=>{
-
-        this._user.set(null);
-        this._token.set(null);
-        this._authStatus.set('not-authenticated')
-
-
-        return of(false)
-      })
+      map((resp) => this.handleAuthSuccess(resp) ),
+      catchError((error:any)=> this.handleAuthError(error) )
     )
 
   } 
@@ -67,34 +52,43 @@ checkStatusResource = rxResource<boolean, void>({
   checkStatus():Observable<boolean>{
     const token = localStorage.getItem('token')
     if (!token  ) {
+      this.logOut();
       return of( false )
     }
 
     return this.http.get<AuthResponse>(`${baseUrl}/auth/check-status`,{
-      headers:{
+/*       headers:{
       Authorization:`Bearer ${token }`,
-    },
+    }, */
   })
-      .pipe(
-      tap((resp) =>{
+    .pipe(
+      map((resp) => this.handleAuthSuccess(resp) ),
+      catchError((error:any)=> this.handleAuthError(error) )
+    )
+
+  }
+
+  logOut(){
+    this._token.set(null)
+    this._user.set(null)
+    this._authStatus.set('not-authenticated')
+
+    // localStorage.removeItem('token')
+  }
+
+  private handleAuthSuccess( resp: AuthResponse){
         this._user.set(resp.user)
         this._authStatus.set('authenticated')
         this._token.set(resp.token)
 
         localStorage.setItem('token',resp.token)
 
-      }),map(()=> true),
-      catchError((error:any)=>{
+        return true
+  }
 
-        this._user.set(null);
-        this._token.set(null);
-        this._authStatus.set('not-authenticated')
-
-
-        return of(false)
-      })
-    )
-
+  private handleAuthError( error: any ){
+    this.logOut();
+    return of(false)
   }
 
 }
