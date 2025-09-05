@@ -7,3 +7,9 @@ export interface User {
     roles:    string[];
 }
 
+export interface LoginI {
+    email:string;
+    password:string;
+    fullName:string;
+}
+

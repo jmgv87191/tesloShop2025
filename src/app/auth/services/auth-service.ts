@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { User } from '../interfaces/user.interface';
+import { LoginI, User } from '../interfaces/user.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { AuthResponse } from '../interfaces/auth-response.interface';
@@ -89,6 +89,10 @@ checkStatusResource = rxResource<boolean, void>({
   private handleAuthError( error: any ){
     this.logOut();
     return of(false)
+  }
+
+  singUp( form:LoginI ):Observable<AuthResponse>{
+    return this.http.post<AuthResponse>( `${baseUrl}/auth/register`, form )
   }
 
 }
