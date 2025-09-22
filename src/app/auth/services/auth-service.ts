@@ -17,6 +17,7 @@ export class AuthService {
   private _authStatus = signal<AuthStatus>('checking')
   private _user = signal<User | null> (null)
   private _token = signal<string | null>( localStorage.getItem('token') )
+  
 
   private http = inject(HttpClient)
 
@@ -35,6 +36,7 @@ checkStatusResource = rxResource<boolean, void>({
 
   token = computed (this._token)
 
+  isAdmin = computed(()=>this.user()?.roles.includes('admin')??false)
 
   login( email: string, password: string ):Observable<boolean> {
 
