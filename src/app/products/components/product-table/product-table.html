@@ -49,7 +49,10 @@
                 
                 @else if( product.stock <=20 ) {
                     <span class="badge-warning badge" > {{ product.stock }}  </span>
-
+                    
+                  }
+                  @else {
+                    <a [routerLink]="['/admin/products',product.id]" class="btb btn-ghost text-accent btn-sm" >Detalles</a>
                 }
                 
 
@@ -63,15 +66,6 @@
 
 
     </tbody>
-    <!-- foot -->
-    <tfoot>
-      <tr>
-        <th></th>
-        <th>Name</th>
-        <th>Job</th>
-        <th>Favorite Color</th>
-        <th></th>
-      </tr>
-    </tfoot>
+
   </table>
 </div>
