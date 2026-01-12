@@ -1,23 +1,48 @@
-import { Component, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { ProductCard } from "../../../products/components/product-card/product-card";
 import { ProductsService } from '../../../products/services/products';
-import { rxResource } from '@angular/core/rxjs-interop'
+import { rxResource, toSignal } from '@angular/core/rxjs-interop'
+import { Pagination } from "../../../shared/components/pagination/pagination";
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
 
 
 @Component({
   selector: 'app-home-page',
-  imports: [ProductCard],
+  imports: [ProductCard, Pagination],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css',
 })
 export class HomePage {
 
   productService: ProductsService = inject(ProductsService)
+  activatedRoute = inject(ActivatedRoute);
 
-  productResoruce = rxResource({
-    stream:()=> this.productService.getProducts( {} )
-    
-  })
+  currentPage = toSignal(
+    this.activatedRoute.queryParamMap.pipe(
+      map( params => (params.get('page')? +params.get('page')!:1  ) ),
+      map( page => (isNaN(page) ? 1 : page  ) )
+    ),
+    {
+      initialValue: 1,
+
+    }
+  )
+
+productsResource = rxResource({
+    stream: () => this.productService.getProducts({
+        limit: 10,
+        offset: (this.currentPage() - 1) * 10, 
+    })
+});
+
+constructor() {
+  effect(() => {
+    this.currentPage();    
+    this.productsResource.reload();
+  });
+}
+
 
 
 }

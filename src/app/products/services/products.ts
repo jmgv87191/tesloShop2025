@@ -10,6 +10,8 @@ interface Options{
   limit?: number;
   offset?:number;
   gender?:string;
+  page?: number;
+
 }
 
 @Injectable({
