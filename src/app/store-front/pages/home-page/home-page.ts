@@ -5,6 +5,7 @@ import { rxResource, toSignal } from '@angular/core/rxjs-interop'
 import { Pagination } from "../../../shared/components/pagination/pagination";
 import { ActivatedRoute } from '@angular/router';
 import { map } from 'rxjs';
+import { PaginationService } from '../../../shared/components/pagination/pagination.service';
 
 
 @Component({
@@ -16,7 +17,8 @@ import { map } from 'rxjs';
 export class HomePage {
 
   productService: ProductsService = inject(ProductsService)
-  activatedRoute = inject(ActivatedRoute);
+  paginationService = inject(PaginationService)
+/*   activatedRoute = inject(ActivatedRoute);
 
   currentPage = toSignal(
     this.activatedRoute.queryParamMap.pipe(
@@ -27,18 +29,18 @@ export class HomePage {
       initialValue: 1,
 
     }
-  )
+  ) */
 
 productsResource = rxResource({
     stream: () => this.productService.getProducts({
         limit: 10,
-        offset: (this.currentPage() - 1) * 10, 
+        offset: (this.paginationService.currentPage() - 1) * 10, 
     })
 });
 
 constructor() {
   effect(() => {
-    this.currentPage();    
+    this.paginationService.currentPage();    
     this.productsResource.reload();
   });
 }
