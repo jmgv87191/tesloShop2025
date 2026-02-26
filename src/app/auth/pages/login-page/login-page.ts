@@ -16,7 +16,24 @@ export class LoginPage {
   isPosting = signal(true);
 
   loginform = this.fb.group({
-    email:[ '',[Validators.required, Validators.email] ]
+    email:[ '',[Validators.required, Validators.email] ],
+    password:[ '', [Validators.required, Validators.minLength(6)] ]
   })
+
+  onSubmit(){
+    if(this.loginform.invalid){
+      this.hasError.set(true)
+      setTimeout(() => {
+          this.hasError.set(false)
+      }, 2000);
+      return
+    }
+
+    const { email = '', password='' } = this.loginform.value;
+
+    console.log({ email, password })
+
+
+  }
 
 }
